@@ -1,6 +1,9 @@
 import { messages, status } from '../utils/httpResponses'
 import ItemsModel from '../models/itemsModel'
-import { Prisma } from '@prisma/client'; // Import Prisma error handling
+import { Prisma } from '@prisma/client'
+
+// interfaces imports
+import { ItemPayload } from '../interfaces/requestInterfaces'
 
 const { OK } = messages
 const { FAILED, CREATED, DONE, NO_CONTENT } = status
@@ -21,11 +24,10 @@ class ItemsService {
             const itemsList = await ItemsModel.list()
             return this.objResponse(DONE, OK, itemsList)
         } catch (err) {
-            console.log(err)
             return this.objResponse(FAILED, OK, err)
         }
     }
-    public async find (payload: any) : Promise<responseObject> {
+    public async find (payload: ItemPayload) : Promise<responseObject> {
         try {
             const item = await ItemsModel.find(payload)
             return this.objResponse(DONE, OK, item)
@@ -33,15 +35,16 @@ class ItemsService {
             return this.objResponse(FAILED, OK, {})
         }
     }
-    public async store (payload: any): Promise<responseObject> {
+    public async store (payload: ItemPayload): Promise<responseObject> {
         try {
+            console.log(payload)
             const storeReq = await ItemsModel.store(payload)
             return this.objResponse(CREATED, OK, storeReq)
         } catch (err) {
             return this.objResponse(FAILED, OK, err)
         }
     }
-    public async update (payload: any): Promise<responseObject> {
+    public async update (payload: ItemPayload): Promise<responseObject> {
         try {
             const updateReq = await ItemsModel.update(payload)
             return this.objResponse(DONE, OK, updateReq)
@@ -49,13 +52,13 @@ class ItemsService {
             return this.objResponse(FAILED, OK, err)
         }
     }
-    public async destroy (payload: any): Promise<responseObject> {
+    public async destroy (payload: ItemPayload): Promise<responseObject> {
         try {
             const destroyReq = await ItemsModel.destroy(payload)
             return this.objResponse(NO_CONTENT, OK, destroyReq)
         } catch(err) {
             if (err instanceof Prisma.PrismaClientKnownRequestError) {
-                return this.objResponse(FAILED, OK, { meta: err?.meta?.cause});
+                return this.objResponse(FAILED, OK, { meta: err?.meta?.cause})
             }
             return this.objResponse(FAILED, OK, err)
         }

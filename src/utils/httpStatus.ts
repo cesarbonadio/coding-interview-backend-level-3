@@ -1,3 +1,10 @@
+/**
+ * Object representing HTTP status codes used in the application.
+ * 
+ * @example
+ * const status = httpStatus.CREATED;
+ * // status will be 201
+ */
 export const httpStatus = {
     CREATED: 201,
     DONE: 200,
