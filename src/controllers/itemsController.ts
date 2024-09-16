@@ -1,4 +1,4 @@
-import { ResponseToolkit, Request } from '@hapi/hapi'
+import { ResponseToolkit, Request, ResponseObject } from '@hapi/hapi'
 import { httpStatus } from '../utils/httpStatus'
 import ItemsService from '../services/itemsService'
 
@@ -9,48 +9,35 @@ interface ItemPayload {
 }
 
 class ItemsController {
-    // TODO -> integrate
-    private sendResponse(res: ResponseToolkit, serviceResponse: any) {
+    private sendResponse(res: ResponseToolkit, serviceResponse: any): ResponseObject {
         return res.response(serviceResponse.data).code(
             httpStatus[serviceResponse.status as keyof typeof httpStatus] || 500
         );
     }
-    public async list(req: Request, res: ResponseToolkit) {
+    public list = async (req: Request, res: ResponseToolkit) : Promise<ResponseObject> => {
         const service = await ItemsService.list()
-        return res.response(service.data).code(
-            httpStatus[service.status as keyof typeof httpStatus] || 500
-        )
+        return this.sendResponse(res, service)
     }
-    public async find(req: Request, res: ResponseToolkit) {
+    public find = async(req: Request, res: ResponseToolkit) : Promise<ResponseObject> => {
         const id = Number(req?.params?.id)
         const service = await ItemsService.find({ id })
-        return res.response(service.data).code(
-            httpStatus[service.status as keyof typeof httpStatus] || 500
-        )
+        return this.sendResponse(res, service)
     }
-    public async store(req: Request, res: ResponseToolkit) {
+    public store = async(req: Request, res: ResponseToolkit): Promise<ResponseObject> => {
         const { payload  } = req
-        console.log(payload)
         const service = await ItemsService.store(payload)
-        return res.response(service.data).code(
-            httpStatus[service.status as keyof typeof httpStatus] || 500
-        )
+        return this.sendResponse(res, service)
     }
-    public async update(req: Request, res: ResponseToolkit) {
+    public update = async(req: Request, res: ResponseToolkit): Promise<ResponseObject> => {
         const payload = req.payload as ItemPayload
         const id = Number(req?.params?.id)
         const service = await ItemsService.update({ ...payload, id })
-        return res.response(service.data).code(
-            httpStatus[service.status as keyof typeof httpStatus] || 500
-        )
+        return this.sendResponse(res, service)
     }
-    public async destroy(req: Request, res: ResponseToolkit) {
+    public destroy = async(req: Request, res: ResponseToolkit): Promise<ResponseObject> => {
         const id = Number(req?.params?.id)
         const service = await ItemsService.destroy({ id })
-        console.log(service)
-        return res.response(service.data).code(
-            httpStatus[service.status as keyof typeof httpStatus] || 500
-        )
+        return this.sendResponse(res, service)
     }
 }
 

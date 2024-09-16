@@ -1,6 +1,7 @@
-import Joi from "joi"
+import { ResponseToolkit, Request } from '@hapi/hapi'
+import Joi from 'joi'
 
-export const generalValidationFailHandler = (_request: any, h: any, err: any) => {
+export const failAction = (request: Request, h: ResponseToolkit, err: Error | undefined) => {
     if (Joi.isError(err)) {
         const errors = err.details.map((detail: Joi.ValidationErrorItem) => {
             return {

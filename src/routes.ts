@@ -1,7 +1,7 @@
 import { Server } from "@hapi/hapi"
 import ItemsController from './controllers/itemsController'
 import { itemSchema } from "./validators/itemRequest"
-import Joi from "joi"
+import { failAction } from "./validators/failActions"
 
 export const defineRoutes = (server: Server) => {
     server.route({
@@ -32,18 +32,7 @@ export const defineRoutes = (server: Server) => {
             options: {
                 validate: {
                     payload: itemSchema,
-                    failAction: (request, h, err) => {
-                        if (Joi.isError(err)) {
-                            const errors = err.details.map((detail: Joi.ValidationErrorItem) => {
-                                return {
-                                    field: detail.context?.key,
-                                    message: `Field ${detail.message}`
-                                }
-                            })
-                            return h.response({ errors }).code(400).takeover()
-                        }
-                        return h.continue
-                    }
+                    failAction
                 }
             }
         },
@@ -54,18 +43,7 @@ export const defineRoutes = (server: Server) => {
             options: {
                 validate: {
                     payload: itemSchema,
-                    failAction: (request, h, err) => {
-                        if (Joi.isError(err)) {
-                            const errors = err.details.map((detail: Joi.ValidationErrorItem) => {
-                                return {
-                                    field: detail.context?.key,
-                                    message: `Field ${detail.message}`
-                                }
-                            })
-                            return h.response({ errors }).code(400).takeover()
-                        }
-                        return h.continue
-                    }
+                    failAction
                 }
             }
         },
