@@ -4,6 +4,7 @@ import { Prisma } from '@prisma/client'
 
 // interfaces imports
 import { ItemPayload } from '../interfaces/requestInterfaces'
+import { Item } from '../interfaces/modelsInterfaces'
 
 const { OK } = messages
 const { FAILED, CREATED, DONE, NO_CONTENT } = status
@@ -19,13 +20,9 @@ class ItemsService {
     private objResponse (status: string, message: string, data: any): responseObject {
         return { status, message, data }
     }
-    public async list () : Promise<responseObject> {
-        try {
-            const itemsList = await ItemsModel.list()
-            return this.objResponse(DONE, OK, itemsList)
-        } catch (err) {
-            return this.objResponse(FAILED, OK, err)
-        }
+    public async list () : Promise<Array<Item>> {
+        const itemsList = await ItemsModel.list()
+        return itemsList
     }
     public async find (payload: ItemPayload) : Promise<responseObject> {
         try {
@@ -37,7 +34,6 @@ class ItemsService {
     }
     public async store (payload: ItemPayload): Promise<responseObject> {
         try {
-            console.log(payload)
             const storeReq = await ItemsModel.store(payload)
             return this.objResponse(CREATED, OK, storeReq)
         } catch (err) {

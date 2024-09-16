@@ -1,5 +1,6 @@
 import { ResponseObject, ResponseToolkit } from "@hapi/hapi"
 import { httpStatus } from "./httpStatus"
+import { ServiceResponse } from "../interfaces/requestInterfaces"
 
 /**
  * Sends an HTTP response using the provided `ResponseToolkit` object.
@@ -24,4 +25,13 @@ export const sendResponse = (res: ResponseToolkit, serviceResponse: any): Respon
             serviceResponse.status as keyof typeof httpStatus
         ] || 500
     )
+}
+
+
+export const sendServiceResponse = (status: string, message: string, data: any): ServiceResponse => {
+    return { 
+        status, 
+        message, 
+        data 
+    }
 }

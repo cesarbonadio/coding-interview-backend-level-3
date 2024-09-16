@@ -1,12 +1,20 @@
 import { ResponseToolkit, Request, ResponseObject } from '@hapi/hapi'
 import ItemsService from '../services/itemsService'
 import { ItemPayload } from '../interfaces/requestInterfaces'
-import { sendResponse } from '../utils/common'
+import { sendResponse, sendServiceResponse } from '../utils/common'
+
+import { messages, status } from '../utils/httpResponses'
+const { OK } = messages
+const { FAILED, CREATED, DONE, NO_CONTENT } = status
 
 class ItemsController {
     public list = async (req: Request, res: ResponseToolkit) : Promise<ResponseObject> => {
-        const service = await ItemsService.list()
-        return sendResponse(res, service)
+        try {
+            const service = await ItemsService.list()
+            return sendResponse(res, sendServiceResponse(DONE, OK, service))
+        } catch (err) {
+            return sendResponse(res, sendServiceResponse(FAILED, OK, err))
+        }
     }
     public find = async(req: Request, res: ResponseToolkit) : Promise<ResponseObject> => {
         const id = Number(req?.params?.id)
