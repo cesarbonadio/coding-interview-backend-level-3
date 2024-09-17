@@ -53,7 +53,7 @@ npm install
 ## Migrar
 
 ```sh
-npx sequelize-cli db:migrate
+npx prisma migrate --dev
 ```
 
 ### Correr proyecto

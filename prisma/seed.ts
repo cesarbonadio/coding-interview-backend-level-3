@@ -11,34 +11,7 @@ export interface Item {
 let items: Item[] = []
 
 const createItems = async () : Promise<void> => {
-  items = [
-    {
-      id: 1,
-      name: 'Laptop',
-      price: 1200.00
-    },
-    {
-      id: 2,
-      name: 'Smartphone',
-      price: 800.00
-    },
-    {
-      id: 3,
-      name: 'Headphones',
-      price: 200.00
-    },
-    {
-      id: 4,
-      name: 'Smartwatch',
-      price: 250.00
-    },
-    {
-      id: 5,
-      name: 'Gaming Console',
-      price: 500.00
-    }
-  ]
-
+  items = []
   await prisma.item.createMany({ data: items })
 }
 
