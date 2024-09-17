@@ -32,3 +32,38 @@ Tu tarea es completar la implementación de toda la funcionalidad de forma tal d
 7. PROFIT
 
 ### Cualquier duda contactarme a https://www.linkedin.com/in/andreujuan/
+
+
+## Pasos para correr el proyecto o las pruebas
+
+## Crear base de datos
+
+Crear una base de datos en postgres llamada items_interview. Configurar credenciales segun .env
+
+## Configurar .env
+
+Configurar .env a partir del env example
+
+## Instalar dependencias
+
+```sh
+npm install
+```
+
+## Migrar
+
+```sh
+npx sequelize-cli db:migrate
+```
+
+### Correr proyecto
+
+```sh
+npm run dev
+```
+
+### Correr pruebas
+
+```sh
+npm run dev
+```
