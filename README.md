@@ -53,7 +53,7 @@ npm install
 ## Migrar
 
 ```sh
-npx prisma migrate --dev
+npx prisma migrate dev
 ```
 
 ### Correr proyecto
@@ -65,5 +65,5 @@ npm run dev
 ### Correr pruebas
 
 ```sh
-npm run dev
+npm run test
 ```
