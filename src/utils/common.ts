@@ -27,7 +27,14 @@ export const sendResponse = (res: ResponseToolkit, serviceResponse: any): Respon
     )
 }
 
-
+/**
+ * Sends a service response with the provided status, message, and data.
+ *
+ * @param {string} status - The status of the service response (e.g., 'SUCCESS', 'ERROR').
+ * @param {string} message - A message describing the response (e.g., 'Operation completed successfully').
+ * @param {any} data - The data to include in the response (can be any type, depending on the use case).
+ * @returns {ServiceResponse} - An object containing the status, message, and data.
+ */
 export const sendServiceResponse = (status: string, message: string, data: any): ServiceResponse => {
     return { 
         status, 
